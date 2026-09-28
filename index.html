@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FisikaLab - Portal Belajar Fisika Kelas 11 Kurikulum Merdeka</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        physic: {
+                            50: '#ecfeff',
+                            100: '#cffaff',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                            dark: '#0b1120',
+                            card: '#131c31',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Glowing & Particle Animations */
+        .glow-cyan {
+            box-shadow: 0 0 25px -5px rgba(34, 211, 238, 0.4);
+        }
+        .glow-cyan-sm {
+            box-shadow: 0 0 12px 0px rgba(34, 211, 238, 0.3);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(34, 211, 238, 0.12) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0891b2;
+        }
+    </style>
+</head>
+<body class="bg-physic-dark text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-slate-900">
+
+    <!-- Navigation Header -->
+    <nav class="sticky top-0 z-50 bg-physic-dark/80 backdrop-blur-lg border-b border-slate-800 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-11 h-11 bg-gradient-to-tr from-cyan-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg glow-cyan-sm">
+                        <i class="fa-solid fa-atom text-2xl animate-spin" style="animation-duration: 12s;"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-1.5">
+                            <span class="font-black text-xl tracking-wider text-white">Fisika<span class="text-cyan-400">Lab</span></span>
+                            <span class="bg-cyan-950 text-cyan-300 border border-cyan-800 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full">XI SMA</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 font-medium">Kurikulum Merdeka Interaktif</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-300">
+                    <a href="#beranda" class="hover:text-cyan-400 transition-colors">Beranda</a>
+                    <a href="#kelompok" class="hover:text-cyan-400 transition-colors">Anggota Kelompok</a>
+                    <a href="#modul" class="hover:text-cyan-400 transition-colors">Modul Bab</a>
+                    <a href="#simulator" class="hover:text-cyan-400 transition-colors">Lab Simulator</a>
+                    <a href="#rumus" class="hover:text-cyan-400 transition-colors">Pencari Rumus</a>
+                    <a href="#kuis" class="hover:text-cyan-400 transition-colors">Mini Kuis</a>
+                </div>
+
+                <!-- Right CTA Button -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#simulator" class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 glow-cyan transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2">
+                        <i class="fa-solid fa-flask-vial"></i>
+                        <span>Coba Lab Virtual</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-physic-card border-b border-slate-800 px-4 pt-2 pb-6 space-y-3 shadow-2xl">
+            <a href="#beranda" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400">Beranda</a>
+            <a href="#kelompok" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400">Anggota Kelompok</a>
+            <a href="#modul" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400">Modul Bab</a>
+            <a href="#simulator" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400">Lab Simulator</a>
+            <a href="#rumus" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400">Pencari Rumus</a>
+            <a href="#kuis" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400">Mini Kuis</a>
+            <a href="#simulator" class="mobile-link w-full text-center block px-4 py-3 rounded-xl text-sm font-bold text-slate-900 bg-cyan-400 shadow-lg">
+                <i class="fa-solid fa-flask-vial mr-2"></i>Coba Lab Virtual
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="relative bg-physic-dark bg-grid-pattern py-16 lg:py-24 overflow-hidden border-b border-slate-800/80">
+        <!-- Radial Glow Background Effect -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-80 h-80 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Column Text -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-indigo-950/80 border border-indigo-500/30 px-4 py-2 rounded-full text-xs font-semibold text-indigo-300 backdrop-blur-md">
+                        <i class="fa-solid fa-laptop-code text-cyan-400"></i>
+                        <span>Proyek Tugas Akhir Semester 1 Informatika</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+                        Pahami Hukum Alam dengan <span class="text-gradient">Simulasi & Visualisasi</span> Interaktif
+                    </h1>
+
+                    <p class="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Ubah rumus abstrak Fisika Kelas 11 menjadi visual animasi yang mudah dipahami. Dikembangkan secara interaktif oleh Kelompok Informatika untuk memenuhi Tugas Akhir Semester 1.
+                    </p>
+
+                    <!-- Hero CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#simulator" class="w-full sm:w-auto px-8 py-4 bg-cyan-400 text-slate-900 hover:bg-cyan-300 rounded-xl font-extrabold shadow-lg glow-cyan transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-play text-xs"></i>
+                            <span>Buka Lab Simulator</span>
+                        </a>
+                        <a href="#modul" class="w-full sm:w-auto px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl font-bold transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-book-open text-cyan-400"></i>
+                            <span>Jelajahi 6 Bab Utama</span>
+                        </a>
+                    </div>
+
+                    <!-- Highlight Tags -->
+                    <div class="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-400 font-medium border-t border-slate-800">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400"></i>
+                            <span>Simulasi Fisika Realtime</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-circle-check text-cyan-400"></i>
+                            <span>Soal Standar HOTS & UTBK</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-users text-indigo-400"></i>
+                            <span>Karya Kelompok 5 Anggota</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Interactive Graphic/Card -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <!-- Atom Orbit Visual Graphic Container -->
+                        <div class="bg-physic-card p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden group">
+                            <div class="absolute -top-10 -right-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-xl"></div>
+                            
+                            <!-- Header Info -->
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-cyan-950 border border-cyan-800 text-cyan-400 flex items-center justify-center font-bold text-lg">
+                                        <i class="fa-solid fa-orbit"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-white text-sm">Prinsip Hukum Fisika</h3>
+                                        <p class="text-xs text-slate-400">Persamaan Gerak & Energi</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono font-bold rounded-lg">F = m · a</span>
+                            </div>
+
+                            <!-- Visual Preview Box -->
+                            <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800/80 space-y-4 mb-4">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400 font-mono"><i class="fa-solid fa-gauge mr-1 text-cyan-400"></i> Kecepatan Saat Ini</span>
+                                    <span class="text-cyan-300 font-mono font-bold">24.5 m/s</span>
+                                </div>
+                                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-2 rounded-full animate-pulse" style="width: 75%"></div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 pt-2">
+                                    <div class="p-2.5 bg-slate-800/60 rounded-xl border border-slate-700/50 text-center">
+                                        <p class="text-[10px] text-slate-400">Energi Kinetik (Ek)</p>
+                                        <p class="font-mono font-bold text-cyan-400 text-sm mt-0.5">600 Joule</p>
+                                    </div>
+                                    <div class="p-2.5 bg-slate-800/60 rounded-xl border border-slate-700/50 text-center">
+                                        <p class="text-[10px] text-slate-400">Gaya Total (F)</p>
+                                        <p class="font-mono font-bold text-indigo-400 text-sm mt-0.5">120 Newton</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Simulation Prompt -->
+                            <a href="#simulator" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-sliders"></i>
+                                <span>Ubah Variabel di Simulator</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Anggota Kelompok Section -->
+    <section id="kelompok" class="py-20 bg-slate-900 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-indigo-400 font-mono font-bold text-xs uppercase bg-indigo-950 border border-indigo-800 px-3 py-1 rounded-md">
+                    <i class="fa-solid fa-graduation-cap mr-1"></i> Tugas Akhir Semester 1
+                </span>
+                <h2 class="text-3xl font-black text-white mt-3">Tim Penyusun Informatika</h2>
+                <p class="text-slate-400 text-sm mt-1">Website ini dikembangkan oleh Tim Kelompok Informatika untuk pembelajaran Fisika Kelas 11 interaktif.</p>
+            </div>
+
+            <!-- Team Cards Container -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                
+                <!-- Anggota 1 -->
+                <div class="bg-physic-card p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/50 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-600 to-indigo-600 flex items-center justify-center text-white text-2xl font-black mx-auto mb-4 shadow-lg glow-cyan-sm group-hover:scale-105 transition-transform">
+                        BR
+                    </div>
+                    <span class="text-[10px] font-mono font-bold text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-0.5 rounded-full">Anggota 1</span>
+                    <h3 class="text-sm font-bold text-white mt-3 group-hover:text-cyan-300 transition-colors">BILAL RADYA DUHA</h3>
+                    <p class="text-[11px] text-slate-400 mt-1 font-mono">Informatika - Kelompok TA</p>
+                </div>
+
+                <!-- Anggota 2 -->
+                <div class="bg-physic-card p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/50 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-2xl font-black mx-auto mb-4 shadow-lg group-hover:scale-105 transition-transform">
+                        MK
+                    </div>
+                    <span class="text-[10px] font-mono font-bold text-indigo-400 bg-indigo-950 border border-indigo-800 px-2.5 py-0.5 rounded-full">Anggota 2</span>
+                    <h3 class="text-sm font-bold text-white mt-3 group-hover:text-indigo-300 transition-colors">M. IDHAM KHAIRIL GHANI</h3>
+                    <p class="text-[11px] text-slate-400 mt-1 font-mono">Informatika - Kelompok TA</p>
+                </div>
+
+                <!-- Anggota 3 -->
+                <div class="bg-physic-card p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/50 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-600 flex items-center justify-center text-white text-2xl font-black mx-auto mb-4 shadow-lg group-hover:scale-105 transition-transform">
+                        MA
+                    </div>
+                    <span class="text-[10px] font-mono font-bold text-blue-400 bg-blue-950 border border-blue-800 px-2.5 py-0.5 rounded-full">Anggota 3</span>
+                    <h3 class="text-sm font-bold text-white mt-3 group-hover:text-blue-300 transition-colors">M. ALFIANDI RAMADHAN</h3>
+                    <p class="text-[11px] text-slate-400 mt-1 font-mono">Informatika - Kelompok TA</p>
+                </div>
+
+                <!-- Anggota 4 -->
+                <div class="bg-physic-card p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/50 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center text-white text-2xl font-black mx-auto mb-4 shadow-lg group-hover:scale-105 transition-transform">
+                        LR
+                    </div>
+                    <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950 border border-emerald-800 px-2.5 py-0.5 rounded-full">Anggota 4</span>
+                    <h3 class="text-sm font-bold text-white mt-3 group-hover:text-emerald-300 transition-colors">L. RISWANDI</h3>
+                    <p class="text-[11px] text-slate-400 mt-1 font-mono">Informatika - Kelompok TA</p>
+                </div>
+
+                <!-- Anggota 5 -->
+                <div class="bg-physic-card p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/50 transition-all text-center group hover:-translate-y-1">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-600 to-amber-600 flex items-center justify-center text-white text-2xl font-black mx-auto mb-4 shadow-lg group-hover:scale-105 transition-transform">
+                        NZ
+                    </div>
+                    <span class="text-[10px] font-mono font-bold text-rose-400 bg-rose-950 border border-rose-800 px-2.5 py-0.5 rounded-full">Anggota 5</span>
+                    <h3 class="text-sm font-bold text-white mt-3 group-hover:text-rose-300 transition-colors">NOPAL ZAMRI</h3>
+                    <p class="text-[11px] text-slate-400 mt-1 font-mono">Informatika - Kelompok TA</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapters Section (Modul Bab Kelas 11) -->
+    <section id="modul" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+                <span class="text-cyan-400 font-mono font-bold text-xs tracking-wider uppercase bg-cyan-950 border border-cyan-800 px-3 py-1 rounded-md">Materi Silabus XI</span>
+                <h2 class="text-3xl font-extrabold text-white mt-3">Modul Pembelajaran Fisika</h2>
+                <p class="text-slate-400 text-sm mt-1">Disusun sistematis berdasarkan capaian pembelajaran Kurikulum Merdeka.</p>
+            </div>
+            <div class="flex items-center space-x-2 text-xs font-mono text-slate-400 bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl">
+                <i class="fa-solid fa-circle-info text-cyan-400"></i>
+                <span>6 Bab Utama Terintegrasi</span>
+            </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Bab 1: Vektor -->
+            <div class="bg-physic-card rounded-2xl border border-slate-800 hover:border-cyan-500/50 p-6 flex flex-col justify-between hover:shadow-2xl hover:shadow-cyan-500/5 transition-all duration-300 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-950 border border-cyan-800 text-cyan-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold px-2.5 py-1 bg-slate-800 text-slate-300 border border-slate-700 rounded-full">Bab 1 • Sem 1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition-colors">Vektor</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        Penguraian komponen vektor, penjumlahan resultan metode grafis & analitis, serta perkalian titik (dot product) dan silang (cross product).
+                    </p>
+                </div>
+                <div class="border-t border-slate-800/80 pt-4 mt-auto">
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="text-slate-400">Status Modul</span>
+                        <span class="text-cyan-400 font-bold font-mono"><i class="fa-solid fa-circle-check mr-1"></i>Siap Dipelajari</span>
+                    </div>
+                    <button onclick="openModulModal('Vektor', 'Vektor adalah besaran yang memiliki nilai dan arah. Dalam Bab 1 ini, kamu akan mempelajari operasi resultan vektor Fx = F cos θ dan Fy = F sin θ serta aplikasinya dalam menentukan arah gaya.')" class="w-full py-2.5 bg-slate-800 hover:bg-cyan-400 hover:text-slate-900 text-slate-200 font-bold text-xs rounded-xl transition-all">
+                        Buka Ringkasan Bab
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bab 2: Kinematika -->
+            <div class="bg-physic-card rounded-2xl border border-slate-800 hover:border-cyan-500/50 p-6 flex flex-col justify-between hover:shadow-2xl hover:shadow-cyan-500/5 transition-all duration-300 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-950 border border-indigo-800 text-indigo-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold px-2.5 py-1 bg-slate-800 text-slate-300 border border-slate-700 rounded-full">Bab 2 • Sem 1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Kinematika Gerak</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        Analisis Gerak Lurus (GLB & GLBB), Gerak Parabola (Proyektil), dan Gerak Melingkar Beraturan (GMB) dengan persamaan posisi, kecepatan, dan percepatan.
+                    </p>
+                </div>
+                <div class="border-t border-slate-800/80 pt-4 mt-auto">
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="text-slate-400">Status Modul</span>
+                        <span class="text-indigo-400 font-bold font-mono"><i class="fa-solid fa-flask mr-1"></i>Ada Simulator</span>
+                    </div>
+                    <button onclick="openModulModal('Kinematika Gerak', 'Kinematika mempelajari gerak benda tanpa memperhitungkan penyebabnya. Persamaan utama GLBB: Vt = V0 + a.t dan S = V0.t + 1/2 a.t². Coba simulasi gerak pada section simulator di bawah!')" class="w-full py-2.5 bg-slate-800 hover:bg-indigo-500 hover:text-white text-slate-200 font-bold text-xs rounded-xl transition-all">
+                        Buka Ringkasan Bab
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bab 3: Dinamika Gerak -->
+            <div class="bg-physic-card rounded-2xl border border-slate-800 hover:border-cyan-500/50 p-6 flex flex-col justify-between hover:shadow-2xl hover:shadow-cyan-500/5 transition-all duration-300 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-950 border border-purple-800 text-purple-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-weight-hanging"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold px-2.5 py-1 bg-slate-800 text-slate-300 border border-slate-700 rounded-full">Bab 3 • Sem 1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">Dinamika & Hukum Newton</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        Hukum I, II, III Newton, Gaya Gesek (statis/kinetis), Gaya Normal, Tegangan Tali, dan Momen Inersia pada Dinamika Rotasi benda tegar.
+                    </p>
+                </div>
+                <div class="border-t border-slate-800/80 pt-4 mt-auto">
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="text-slate-400">Status Modul</span>
+                        <span class="text-purple-400 font-bold font-mono"><i class="fa-solid fa-circle-check mr-1"></i>Siap Dipelajari</span>
+                    </div>
+                    <button onclick="openModulModal('Dinamika Gerak & Hukum Newton', 'Dinamika menganalisis penyebab gerak yaitu Gaya (F). Hukum II Newton menyatakan bahwa percepatan sebanding dengan total gaya dan berbanding terbalik dengan massa benda (a = ΣF / m).')" class="w-full py-2.5 bg-slate-800 hover:bg-purple-500 hover:text-white text-slate-200 font-bold text-xs rounded-xl transition-all">
+                        Buka Ringkasan Bab
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bab 4: Fluida Statis & Dinamis -->
+            <div class="bg-physic-card rounded-2xl border border-slate-800 hover:border-cyan-500/50 p-6 flex flex-col justify-between hover:shadow-2xl hover:shadow-cyan-500/5 transition-all duration-300 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-950 border border-blue-800 text-blue-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold px-2.5 py-1 bg-slate-800 text-slate-300 border border-slate-700 rounded-full">Bab 4 • Sem 2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">Fluida Statis & Dinamis</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        Tekanan Hidrostatis, Hukum Pascal, Hukum Archimedes (Gaya Apung), Persamaan Kontinuitas, dan Azas Bernoulli pada alir cairan.
+                    </p>
+                </div>
+                <div class="border-t border-slate-800/80 pt-4 mt-auto">
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="text-slate-400">Status Modul</span>
+                        <span class="text-blue-400 font-bold font-mono"><i class="fa-solid fa-circle-check mr-1"></i>Siap Dipelajari</span>
+                    </div>
+                    <button onclick="openModulModal('Fluida Statis & Dinamis', 'Mempelajari perilaku zat cair dan gas. Hukum Archimedes: Benda yang dicelupkan ke dalam fluida akan mengalami gaya ke atas sebesar berat fluida yang dipindahkan (Fa = ρ.g.V).')" class="w-full py-2.5 bg-slate-800 hover:bg-blue-500 hover:text-white text-slate-200 font-bold text-xs rounded-xl transition-all">
+                        Buka Ringkasan Bab
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bab 5: Gelombang, Bunyi, Cahaya -->
+            <div class="bg-physic-card rounded-2xl border border-slate-800 hover:border-cyan-500/50 p-6 flex flex-col justify-between hover:shadow-2xl hover:shadow-cyan-500/5 transition-all duration-300 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-800 text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-wave-square"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold px-2.5 py-1 bg-slate-800 text-slate-300 border border-slate-700 rounded-full">Bab 5 • Sem 2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-300 transition-colors">Gelombang & Cahaya</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        Gelombang Berjalan & Stasioner, Efek Doppler pada gelombang bunyi, Difraksi, Interferensi, dan Polarisasi cahaya optik.
+                    </p>
+                </div>
+                <div class="border-t border-slate-800/80 pt-4 mt-auto">
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="text-slate-400">Status Modul</span>
+                        <span class="text-emerald-400 font-bold font-mono"><i class="fa-solid fa-circle-check mr-1"></i>Siap Dipelajari</span>
+                    </div>
+                    <button onclick="openModulModal('Gelombang, Bunyi & Cahaya', 'Gelombang mentransfer energi tanpa memindahkan mediumnya. Persamaan umum kecepatan gelombang: v = λ · f. Efek Doppler menjelaskan perubahan frekuensi bunyi akibat gerak relatif sumber dan pendengar.')" class="w-full py-2.5 bg-slate-800 hover:bg-emerald-500 hover:text-slate-900 text-slate-200 font-bold text-xs rounded-xl transition-all">
+                        Buka Ringkasan Bab
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bab 6: Termodinamika -->
+            <div class="bg-physic-card rounded-2xl border border-slate-800 hover:border-cyan-500/50 p-6 flex flex-col justify-between hover:shadow-2xl hover:shadow-cyan-500/5 transition-all duration-300 group">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-rose-950 border border-rose-800 text-rose-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold px-2.5 py-1 bg-slate-800 text-slate-300 border border-slate-700 rounded-full">Bab 6 • Sem 2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-rose-300 transition-colors">Termodinamika</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        Hukum ke-0, I, dan II Termodinamika, proses Isobarik, Isokhorik, Isotermal, Adiabatik, serta efisiensi Mesin Carnot.
+                    </p>
+                </div>
+                <div class="border-t border-slate-800/80 pt-4 mt-auto">
+                    <div class="flex items-center justify-between text-xs mb-3">
+                        <span class="text-slate-400">Status Modul</span>
+                        <span class="text-rose-400 font-bold font-mono"><i class="fa-solid fa-circle-check mr-1"></i>Siap Dipelajari</span>
+                    </div>
+                    <button onclick="openModulModal('Termodinamika', 'Termodinamika membahas hubungan antara kalor, usaha, dan energi dalam. Hukum I Termodinamika: Q = ΔU + W. Mesin Carnot merupakan mesin kalor ideal dengan efisiensi maksimal η = (1 - T2/T1) x 100%.')" class="w-full py-2.5 bg-slate-800 hover:bg-rose-500 hover:text-white text-slate-200 font-bold text-xs rounded-xl transition-all">
+                        Buka Ringkasan Bab
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive Physics Simulator Section -->
+    <section id="simulator" class="py-20 bg-slate-900 border-y border-slate-800 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-cyan-400 font-mono font-bold text-xs uppercase bg-cyan-950 border border-cyan-800 px-3 py-1 rounded-md">Virtual Lab</span>
+                <h2 class="text-3xl font-black text-white mt-3">Simulator Fisika Interaktif</h2>
+                <p class="text-slate-400 text-sm mt-1">Ubah nilai slider parameter di bawah untuk melihat animasi pergerakan benda dan perhitungan nilai realtime!</p>
+            </div>
+
+            <div class="bg-physic-card border border-slate-800 rounded-3xl p-6 lg:p-10 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Controls Side Column -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-cyan-400"></i> Control Panel Simulator
+                        </h3>
+                        <span class="text-xs font-mono text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-1 rounded-lg">GLBB & Gaya</span>
+                    </div>
+
+                    <!-- Slider 1: Massa (m) -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-mono">
+                            <span class="text-slate-300">Massa Benda (m):</span>
+                            <span id="val-massa" class="text-cyan-400 font-bold">5.0 kg</span>
+                        </div>
+                        <input type="range" id="input-massa" min="1" max="20" step="0.5" value="5" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+                    </div>
+
+                    <!-- Slider 2: Gaya Dorong (F) -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-mono">
+                            <span class="text-slate-300">Gaya Dorong Total (F):</span>
+                            <span id="val-gaya" class="text-cyan-400 font-bold">25 N</span>
+                        </div>
+                        <input type="range" id="input-gaya" min="0" max="100" step="1" value="25" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+                    </div>
+
+                    <!-- Slider 3: Waktu Tempuh (t) -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-mono">
+                            <span class="text-slate-300">Durasi Waktu (t):</span>
+                            <span id="val-waktu" class="text-cyan-400 font-bold">3.0 s</span>
+                        </div>
+                        <input type="range" id="input-waktu" min="0.5" max="10" step="0.5" value="3" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+                    </div>
+
+                    <!-- Calculated Outputs -->
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <p class="text-[11px] text-slate-400">Percepatan (a = F/m)</p>
+                            <p id="res-acc" class="text-lg font-mono font-bold text-cyan-400 mt-1">5.00 m/s²</p>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <p class="text-[11px] text-slate-400">Jarak Tempuh (S = ½at²)</p>
+                            <p id="res-dist" class="text-lg font-mono font-bold text-indigo-400 mt-1">22.50 m</p>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <p class="text-[11px] text-slate-400">Kecepatan Akhir (Vt)</p>
+                            <p id="res-vel" class="text-lg font-mono font-bold text-emerald-400 mt-1">15.00 m/s</p>
+                        </div>
+                        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                            <p class="text-[11px] text-slate-400">Energi Kinetik (Ek)</p>
+                            <p id="res-ek" class="text-lg font-mono font-bold text-amber-400 mt-1">562.50 J</p>
+                        </div>
+                    </div>
+
+                    <button id="btn-run-sim" class="w-full py-3 bg-cyan-400 hover:bg-cyan-300 text-slate-900 font-extrabold text-xs rounded-xl transition-all shadow-lg glow-cyan flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-play"></i> Putar Simulasi Pergerakan
+                    </button>
+                </div>
+
+                <!-- Simulation Canvas Render Column -->
+                <div class="lg:col-span-7 flex flex-col justify-between">
+                    <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800 relative h-72 sm:h-80 flex flex-col justify-between overflow-hidden">
+                        
+                        <!-- Top Canvas Overlay Info -->
+                        <div class="flex justify-between items-center text-xs text-slate-400 border-b border-slate-800/80 pb-2 z-10">
+                            <span><i class="fa-solid fa-vr-cardboard text-cyan-400 mr-1"></i> Visual Lintasan Benda</span>
+                            <span class="font-mono text-[10px] text-cyan-400">Persamaan GLBB Realtime</span>
+                        </div>
+
+                        <!-- Canvas Drawing Element -->
+                        <canvas id="simCanvas" class="w-full h-full my-2"></canvas>
+
+                        <!-- Scale Indicators -->
+                        <div class="flex justify-between text-[10px] text-slate-500 font-mono border-t border-slate-800/80 pt-2">
+                            <span>0m (Start)</span>
+                            <span>Lintasan Skala 100m</span>
+                        </div>
+                    </div>
+
+                    <!-- Physics Formula Highlight Card -->
+                    <div class="mt-4 p-4 bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-cyan-950 text-cyan-400 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-square-root-variable"></i>
+                            </div>
+                            <div>
+                                <p class="text-white font-bold">Rumus Terkait</p>
+                                <p class="text-slate-400 text-[11px] font-mono">F = m · a &nbsp;|&nbsp; S = v₀t + ½at² &nbsp;|&nbsp; Ek = ½mv²</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Formula Search Bar Section -->
+    <section id="rumus" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-cyan-400 font-mono font-bold text-xs uppercase bg-cyan-950 border border-cyan-800 px-3 py-1 rounded-md">Kamus Cepat</span>
+            <h2 class="text-3xl font-black text-white mt-3">Glosarium Rumus Fisika</h2>
+            <p class="text-slate-400 text-sm mt-1">Cari rumus instan lengkap dengan keterangan variabel dan satuan Internasional (SI).</p>
+        </div>
+
+        <!-- Search Input Bar -->
+        <div class="max-w-xl mx-auto mb-10">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-slate-400"></i>
+                <input type="text" id="search-rumus" placeholder="Cari nama rumus, contoh: Hukum Newton, Bernouli, Gaya..." class="w-full pl-11 pr-4 py-3.5 bg-physic-card border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all shadow-xl">
+            </div>
+        </div>
+
+        <!-- Formulas Grid Container -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="rumus-container">
+            
+            <div class="rumus-item bg-physic-card p-5 rounded-2xl border border-slate-800 hover:border-cyan-500/40 transition-all">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="font-bold text-white text-base">Hukum II Newton</span>
+                    <span class="text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 px-2 py-0.5 rounded">Dinamika</span>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-xl font-mono text-cyan-400 text-center font-bold text-lg mb-3 border border-slate-800">
+                    F = m · a
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    <strong class="text-slate-300">Keterangan:</strong> F = Gaya (Newton), m = massa (kg), a = percepatan (m/s²).
+                </p>
+            </div>
+
+            <div class="rumus-item bg-physic-card p-5 rounded-2xl border border-slate-800 hover:border-cyan-500/40 transition-all">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="font-bold text-white text-base">Energi Kinetik</span>
+                    <span class="text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 px-2 py-0.5 rounded">Usaha & Energi</span>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-xl font-mono text-cyan-400 text-center font-bold text-lg mb-3 border border-slate-800">
+                    Ek = ½ · m · v²
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    <strong class="text-slate-300">Keterangan:</strong> Ek = Energi Kinetik (Joule), m = massa (kg), v = kecepatan (m/s).
+                </p>
+            </div>
+
+            <div class="rumus-item bg-physic-card p-5 rounded-2xl border border-slate-800 hover:border-cyan-500/40 transition-all">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="font-bold text-white text-base">Tekanan Hidrostatis</span>
+                    <span class="text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 px-2 py-0.5 rounded">Fluida Statis</span>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-xl font-mono text-cyan-400 text-center font-bold text-lg mb-3 border border-slate-800">
+                    Ph = ρ · g · h
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    <strong class="text-slate-300">Keterangan:</strong> Ph = Tekanan (Pa), ρ = massa jenis (kg/m³), g = gravitasi (m/s²), h = kedalaman (m).
+                </p>
+            </div>
+
+            <div class="rumus-item bg-physic-card p-5 rounded-2xl border border-slate-800 hover:border-cyan-500/40 transition-all">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="font-bold text-white text-base">Cepat Rambat Gelombang</span>
+                    <span class="text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 px-2 py-0.5 rounded">Gelombang</span>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-xl font-mono text-cyan-400 text-center font-bold text-lg mb-3 border border-slate-800">
+                    v = λ · f
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    <strong class="text-slate-300">Keterangan:</strong> v = Cepat rambat (m/s), λ = panjang gelombang (m), f = frekuensi (Hz).
+                </p>
+            </div>
+
+            <div class="rumus-item bg-physic-card p-5 rounded-2xl border border-slate-800 hover:border-cyan-500/40 transition-all">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="font-bold text-white text-base">Hukum I Termodinamika</span>
+                    <span class="text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 px-2 py-0.5 rounded">Termo</span>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-xl font-mono text-cyan-400 text-center font-bold text-lg mb-3 border border-slate-800">
+                    Q = ΔU + W
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    <strong class="text-slate-300">Keterangan:</strong> Q = Kalor (Joule), ΔU = Perubahan Energi Dalam (J), W = Usaha Luar (J).
+                </p>
+            </div>
+
+            <div class="rumus-item bg-physic-card p-5 rounded-2xl border border-slate-800 hover:border-cyan-500/40 transition-all">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="font-bold text-white text-base">Momen Inersia Silinder Pejal</span>
+                    <span class="text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 px-2 py-0.5 rounded">Rotasi</span>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-xl font-mono text-cyan-400 text-center font-bold text-lg mb-3 border border-slate-800">
+                    I = ½ · m · R²
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    <strong class="text-slate-300">Keterangan:</strong> I = Momen Inersia (kg·m²), m = massa (kg), R = jari-jari silinder (m).
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Mini Quiz Section -->
+    <section id="kuis" class="py-20 bg-slate-900 border-t border-slate-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <span class="text-cyan-400 font-mono font-bold text-xs uppercase bg-cyan-950 border border-cyan-800 px-3 py-1 rounded-md">Uji Mandiri</span>
+                <h2 class="text-3xl font-black text-white mt-3">Mini Kuis Fisika HOTS</h2>
+                <p class="text-slate-400 text-sm mt-1">Uji pemahaman fisikamu dengan latihan soal penalaran ringkas di bawah ini.</p>
+            </div>
+
+            <!-- Quiz Box Container -->
+            <div class="bg-physic-card border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl">
+                
+                <div id="quiz-container">
+                    <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                        <span id="quiz-progress-text" class="text-xs font-mono font-bold text-slate-400">Pertanyaan 1 dari 3</span>
+                        <span class="text-[10px] font-mono font-bold px-2.5 py-1 bg-cyan-950 text-cyan-300 border border-cyan-800 rounded">Level: HOTS</span>
+                    </div>
+
+                    <h3 id="quiz-question" class="text-lg font-bold text-white mb-6 leading-relaxed">
+                        <!-- Inserted dynamically via JS -->
+                    </h3>
+
+                    <div id="quiz-options" class="space-y-3 mb-6">
+                        <!-- Injected via JS -->
+                    </div>
+
+                    <div id="quiz-feedback" class="hidden p-4 rounded-xl text-xs sm:text-sm font-semibold mb-6"></div>
+
+                    <div class="flex justify-end">
+                        <button id="btn-next-quiz" onclick="nextQuestion()" class="hidden px-6 py-2.5 bg-cyan-400 hover:bg-cyan-300 text-slate-900 font-extrabold text-xs rounded-xl shadow-lg transition-all">
+                            Lanjut Pertanyaan <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Completion Score -->
+                <div id="quiz-results" class="hidden text-center py-8">
+                    <div class="w-16 h-16 bg-cyan-950 text-cyan-400 rounded-2xl border border-cyan-800 flex items-center justify-center text-3xl mx-auto mb-4 glow-cyan-sm">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-white">Kuis Selesai!</h3>
+                    <p class="text-slate-400 text-xs mt-1">Skor Akhir Penguasaan Materi:</p>
+                    <p id="quiz-score" class="text-5xl font-mono font-black text-cyan-400 my-4">100</p>
+                    <p id="quiz-score-msg" class="text-slate-300 text-xs sm:text-sm max-w-md mx-auto mb-6">Hebat sekali! Kamu memiliki pemahaman konsep dasar Fisika yang sangat matang.</p>
+                    <button onclick="restartQuiz()" class="px-6 py-3 bg-cyan-400 text-slate-900 font-extrabold text-xs rounded-xl shadow-lg hover:bg-cyan-300 transition-all">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Ulangi Kuis
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Ringkasan Modul -->
+    <div id="modul-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-physic-card border border-slate-800 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeModulModal()" class="absolute top-5 right-5 w-8 h-8 bg-slate-800 text-slate-400 hover:text-white rounded-full flex items-center justify-center text-sm font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <span class="text-[10px] font-mono font-bold text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-1 rounded uppercase">Ringkasan Materi Bab</span>
+            <h3 id="modal-title" class="text-2xl font-black text-white mt-3 mb-4">Judul Bab</h3>
+            <div id="modal-desc" class="text-slate-300 text-xs sm:text-sm leading-relaxed space-y-3 border-t border-slate-800 pt-4">
+                <!-- Content injected via JS -->
+            </div>
+            <div class="mt-8 flex justify-end">
+                <button onclick="closeModulModal()" class="px-5 py-2.5 bg-cyan-400 hover:bg-cyan-300 text-slate-900 font-extrabold text-xs rounded-xl transition-all">Paham, Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="bg-physic-dark text-slate-400 text-xs pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-slate-800">
+                <div class="md:col-span-5 space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 bg-cyan-400 rounded-xl flex items-center justify-center text-slate-900 font-bold text-lg">
+                            <i class="fa-solid fa-atom"></i>
+                        </div>
+                        <span class="font-black text-xl tracking-wider text-white">Fisika<span class="text-cyan-400">Lab</span></span>
+                    </div>
+                    <p class="text-slate-400 max-w-md leading-relaxed">
+                        Media interaktif belajar Fisika SMA Kelas 11 Kurikulum Merdeka. Dibuat sebagai proyek <strong class="text-white">Tugas Akhir Semester 1 Mata Pelajaran Informatika</strong>.
+                    </p>
+                </div>
+                <div class="md:col-span-3 space-y-2">
+                    <h4 class="font-bold text-white uppercase text-xs tracking-wider mb-3">Tautan Cepat</h4>
+                    <p><a href="#beranda" class="hover:text-cyan-400">Beranda</a></p>
+                    <p><a href="#kelompok" class="hover:text-cyan-400">Tim Kelompok TA</a></p>
+                    <p><a href="#modul" class="hover:text-cyan-400">Modul Bab XI</a></p>
+                    <p><a href="#simulator" class="hover:text-cyan-400">Virtual Lab Simulator</a></p>
+                    <p><a href="#rumus" class="hover:text-cyan-400">Glosarium Rumus</a></p>
+                </div>
+                <div class="md:col-span-4 space-y-2">
+                    <h4 class="font-bold text-white uppercase text-xs tracking-wider mb-3">Penyusun Kelompok</h4>
+                    <ul class="space-y-1 text-slate-300 font-mono text-[11px]">
+                        <li>1. Bilal Radya Duha</li>
+                        <li>2. M. Idham Khairil Ghani</li>
+                        <li>3. M. Alfiandi Ramadhan</li>
+                        <li>4. L. Riswandi</li>
+                        <li>5. Nopal Zamri</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 text-center sm:flex sm:justify-between text-slate-500">
+                <p>&copy; 2026 FisikaLab - Tugas Akhir Semester 1 Informatika.</p>
+                <p class="mt-2 sm:mt-0">Dibuat untuk Pembelajaran Sains & Digitalisasi Sekolah</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Pure JavaScript Logic -->
+    <script>
+        // Mobile Navigation Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Modal Functionality
+        function openModulModal(title, desc) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-desc').innerHTML = `<p>${desc}</p><p class="text-xs text-slate-400 italic">Disusun lengkap sesuai CP Kurikulum Merdeka.</p>`;
+            document.getElementById('modul-modal').classList.remove('hidden');
+        }
+
+        function closeModulModal() {
+            document.getElementById('modul-modal').classList.add('hidden');
+        }
+
+        // Formula Search Filter
+        const searchInput = document.getElementById('search-rumus');
+        const rumusItems = document.querySelectorAll('.rumus-item');
+
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            rumusItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(val) ? 'block' : 'none';
+            });
+        });
+
+        // Simulator Logic & Canvas Animation
+        const inputMassa = document.getElementById('input-massa');
+        const inputGaya = document.getElementById('input-gaya');
+        const inputWaktu = document.getElementById('input-waktu');
+
+        const valMassa = document.getElementById('val-massa');
+        const valGaya = document.getElementById('val-gaya');
+        const valWaktu = document.getElementById('val-waktu');
+
+        const resAcc = document.getElementById('res-acc');
+        const resDist = document.getElementById('res-dist');
+        const resVel = document.getElementById('res-vel');
+        const resEk = document.getElementById('res-ek');
+
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let posX = 30;
+        let animationFrame;
+
+        function updateSimulator() {
+            const m = parseFloat(inputMassa.value);
+            const f = parseFloat(inputGaya.value);
+            const t = parseFloat(inputWaktu.value);
+
+            valMassa.textContent = `${m.toFixed(1)} kg`;
+            valGaya.textContent = `${f} N`;
+            valWaktu.textContent = `${t.toFixed(1)} s`;
+
+            const a = f / m;
+            const s = 0.5 * a * Math.pow(t, 2);
+            const v = a * t;
+            const ek = 0.5 * m * Math.pow(v, 2);
+
+            resAcc.textContent = `${a.toFixed(2)} m/s²`;
+            resDist.textContent = `${s.toFixed(2)} m`;
+            resVel.textContent = `${v.toFixed(2)} m/s`;
+            resEk.textContent = `${ek.toFixed(2)} J`;
+
+            drawCanvas(posX);
+        }
+
+        function drawCanvas(boxX) {
+            // Resize canvas bounds dynamically
+            canvas.width = canvas.parentElement.clientWidth - 32;
+            canvas.height = canvas.parentElement.clientHeight - 60;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const floorY = canvas.height - 30;
+
+            // Draw Floor Line
+            ctx.beginPath();
+            ctx.moveTo(0, floorY);
+            ctx.lineTo(canvas.width, floorY);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Draw Moving Box (Object)
+            const boxWidth = 50;
+            const boxHeight = 40;
+            const boxY = floorY - boxHeight;
+
+            ctx.fillStyle = '#22d3ee';
+            ctx.shadowColor = '#22d3ee';
+            ctx.shadowBlur = 10;
+            ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+            ctx.shadowBlur = 0; // reset shadow
+
+            // Draw Force Vector Arrow
+            ctx.beginPath();
+            ctx.moveTo(boxX + boxWidth, boxY + boxHeight / 2);
+            ctx.lineTo(boxX + boxWidth + 40, boxY + boxHeight / 2);
+            ctx.strokeStyle = '#818cf8';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // Arrow tip
+            ctx.beginPath();
+            ctx.moveTo(boxX + boxWidth + 40, boxY + boxHeight / 2 - 5);
+            ctx.lineTo(boxX + boxWidth + 48, boxY + boxHeight / 2);
+            ctx.lineTo(boxX + boxWidth + 40, boxY + boxHeight / 2 + 5);
+            ctx.fillStyle = '#818cf8';
+            ctx.fill();
+
+            // Draw Text Label on Box
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 12px JetBrains Mono';
+            ctx.fillText(`${inputMassa.value}kg`, boxX + 10, boxY + 24);
+        }
+
+        function runAnimation() {
+            cancelAnimationFrame(animationFrame);
+            let startX = 20;
+            const targetX = canvas.width - 80;
+            const duration = parseFloat(inputWaktu.value) * 1000;
+            let startTime = null;
+
+            function animate(currentTime) {
+                if (!startTime) startTime = currentTime;
+                const progress = (currentTime - startTime) / duration;
+
+                if (progress < 1) {
+                    // Quadratic ease for GLBB acceleration motion
+                    posX = startX + (targetX - startX) * Math.pow(progress, 2);
+                    drawCanvas(posX);
+                    animationFrame = requestAnimationFrame(animate);
+                } else {
+                    posX = targetX;
+                    drawCanvas(posX);
+                }
+            }
+
+            animationFrame = requestAnimationFrame(animate);
+        }
+
+        document.getElementById('btn-run-sim').addEventListener('click', runAnimation);
+        [inputMassa, inputGaya, inputWaktu].forEach(inp => inp.addEventListener('input', () => {
+            posX = 30;
+            updateSimulator();
+        }));
+
+        // Quiz System Data & Logic
+        const physicsQuiz = [
+            {
+                q: "Sebuah balok bermassa 4 kg ditarik dengan gaya tetap F = 20 N di atas lantai licin tanpa gesekan. Berapakah percepatan balok tersebut?",
+                options: ["A. 2 m/s²", "B. 5 m/s²", "C. 10 m/s²", "D. 80 m/s²"],
+                correct: 1,
+                exp: "Berdasarkan Hukum II Newton: a = F / m = 20 N / 4 kg = 5 m/s²."
+            },
+            {
+                q: "Sebuah kapal selam berada pada kedalaman 50 meter di bawah permukaan laut. Jika massa jenis air laut = 1.000 kg/m³ dan g = 10 m/s², berapa tekanan hidrostatisnya?",
+                options: ["A. 50.000 Pa", "B. 250.000 Pa", "C. 500.000 Pa", "D. 1.000.000 Pa"],
+                correct: 2,
+                exp: "Ph = ρ · g · h = 1.000 · 10 · 50 = 500.000 Pascal (500 kPa)."
+            },
+            {
+                q: "Mobil melaju dengan kecepatan awal 10 m/s lalu mengalami percepatan konstan 2 m/s² selama 5 detik. Berapa jarak total yang ditempuh?",
+                options: ["A. 50 meter", "B. 75 meter", "C. 100 meter", "D. 125 meter"],
+                correct: 1,
+                exp: "S = v₀t + ½at² = (10 × 5) + ½(2)(5²) = 50 + 25 = 75 meter."
+            }
+        ];
+
+        let quizIdx = 0;
+        let quizScoreVal = 0;
+        let quizAnswered = false;
+
+        function loadQuizQuestion() {
+            quizAnswered = false;
+            const q = physicsQuiz[quizIdx];
+            document.getElementById('quiz-progress-text').textContent = `Pertanyaan ${quizIdx + 1} dari ${physicsQuiz.length}`;
+            document.getElementById('quiz-question').textContent = q.q;
+
+            const optsBox = document.getElementById('quiz-options');
+            optsBox.innerHTML = '';
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('btn-next-quiz').classList.add('hidden');
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 text-xs sm:text-sm font-medium transition-all text-slate-200 flex justify-between items-center";
+                btn.innerHTML = `<span>${opt}</span><i class="fa-regular fa-circle text-slate-600"></i>`;
+                btn.onclick = () => answerQuiz(i, btn);
+                optsBox.appendChild(btn);
+            });
+        }
+
+        function answerQuiz(selectedIdx, btnEl) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = physicsQuiz[quizIdx];
+            const feedback = document.getElementById('quiz-feedback');
+            const allBtns = document.getElementById('quiz-options').children;
+
+            if (selectedIdx === q.correct) {
+                quizScoreVal += 33.33;
+                btnEl.className = "w-full text-left p-4 rounded-xl border border-cyan-500/50 bg-cyan-950/40 text-cyan-300 text-xs sm:text-sm font-medium flex justify-between items-center";
+                btnEl.querySelector('i').className = "fa-solid fa-circle-check text-cyan-400";
+
+                feedback.className = "p-4 rounded-xl text-xs sm:text-sm font-medium bg-cyan-950/60 border border-cyan-800 text-cyan-200 mb-6";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-2 text-cyan-400"></i><strong>Jawaban Tepat!</strong> ${q.exp}`;
+            } else {
+                btnEl.className = "w-full text-left p-4 rounded-xl border border-rose-500/50 bg-rose-950/40 text-rose-300 text-xs sm:text-sm font-medium flex justify-between items-center";
+                btnEl.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-400";
+
+                allBtns[q.correct].className = "w-full text-left p-4 rounded-xl border border-cyan-500/50 bg-cyan-950/40 text-cyan-300 text-xs sm:text-sm font-medium flex justify-between items-center";
+
+                feedback.className = "p-4 rounded-xl text-xs sm:text-sm font-medium bg-rose-950/60 border border-rose-800 text-rose-200 mb-6";
+                feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2 text-rose-400"></i><strong>Kurang Tepat.</strong> ${q.exp}`;
+            }
+
+            feedback.classList.remove('hidden');
+            document.getElementById('btn-next-quiz').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            quizIdx++;
+            if (quizIdx < physicsQuiz.length) {
+                loadQuizQuestion();
+            } else {
+                document.getElementById('quiz-container').classList.add('hidden');
+                document.getElementById('quiz-results').classList.remove('hidden');
+                const score = Math.round(quizScoreVal);
+                document.getElementById('quiz-score').textContent = score > 90 ? 100 : score;
+            }
+        }
+
+        function restartQuiz() {
+            quizIdx = 0;
+            quizScoreVal = 0;
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        // Initialize Window
+        window.onload = function() {
+            updateSimulator();
+            loadQuizQuestion();
+            window.addEventListener('resize', () => drawCanvas(posX));
+        };
+    </script>
+</body>
+</html>
